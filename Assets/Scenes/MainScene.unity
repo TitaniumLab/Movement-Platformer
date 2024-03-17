@@ -1245,10 +1245,9 @@ MonoBehaviour:
   upperLeftBlock: {fileID: 939430048}
   upperRightBlock: {fileID: 113151351}
   horizontalInput: 0
-  canRotateAgain: 1
-  canJumpAgain: 1
-  isRotating: 0
   jumpAfterRorating: 0
+  isRotating: 0
+  isJumping: 0
 --- !u!111 &1154004035
 Animation:
   m_ObjectHideFlags: 0
