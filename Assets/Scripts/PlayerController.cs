@@ -6,10 +6,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BlockContact bottomRightBlock;//right bottom part of cube
     [SerializeField] private BlockContact upperLeftBlock;//left upper part of cube
     [SerializeField] private BlockContact upperRightBlock;//right upper part of cube
+
     private Rigidbody2D playerRigidbody;
-    [SerializeField] private float horizontalInput;//value for movement
+
     private float defaultGravity = 25;//default gravity value
+    private Vector2 gravityDirection = Vector2.down; //default gravity direction
+
     private Animation rotateAnimation; //controls rotation animation
+
+
+
 
     //[SerializeField] private bool canRotateAgain = true; // prevents glitch after rotarion
     //[SerializeField] private bool canJumpAgain = true; // prevents glitch after jump
@@ -19,22 +25,20 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private bool isJumping = false; //
 
 
-    private StateDB.State state = StateDB.State.vectorUp;//default player state
     private StateDB.MovementState movementState = StateDB.MovementState.idol;//default player state
 
 
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        Physics2D.gravity = Vector2.down * defaultGravity;
+        Physics2D.gravity = gravityDirection * defaultGravity;
         rotateAnimation = GetComponent<Animation>();
     }
 
     void Update()
     {
-
         //movement
-        horizontalInput = Input.GetAxis("Horizontal");
+
         if (Input.GetKey(KeyCode.A) && playerRigidbody.velocity == Vector2.zero && (bottomLeftBlock.isOnSurface && bottomRightBlock.isOnSurface) && movementState == StateDB.MovementState.idol)
             playerRigidbody.AddRelativeForce(Vector2.left * 2, ForceMode2D.Impulse);
         if (Input.GetKey(KeyCode.D) && playerRigidbody.velocity == Vector2.zero && (bottomLeftBlock.isOnSurface && bottomRightBlock.isOnSurface) && movementState == StateDB.MovementState.idol)
@@ -43,10 +47,10 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.AddRelativeForce(Vector2.right * horizontalInput * Time.deltaTime * 1000);
 
         //stop sliding after button up
-        if (horizontalInput == 0 && bottomLeftBlock.isOnSurface && bottomRightBlock.isOnSurface && (playerRigidbody.velocity.x != 0 || playerRigidbody.velocity.y != 0) && (!upperLeftBlock.isOnSurface && !upperRightBlock.isOnSurface))
-        {
-            playerRigidbody.velocity = Vector2.zero;
-        }
+        //if (horizontalInput == 0 && bottomLeftBlock.isOnSurface && bottomRightBlock.isOnSurface && (playerRigidbody.velocity.x != 0 || playerRigidbody.velocity.y != 0) && (!upperLeftBlock.isOnSurface && !upperRightBlock.isOnSurface))
+        //{
+        //    playerRigidbody.velocity = Vector2.zero;
+        //}
 
         //default jump
         //if (Input.GetKeyDown(KeyCode.Space) && (bottomLeftBlock.isOnSurface && bottomRightBlock.isOnSurface) && !upperLeftBlock.isOnSurface && !upperRightBlock.isOnSurface)
